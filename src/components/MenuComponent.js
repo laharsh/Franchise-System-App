@@ -1,70 +1,103 @@
-import React from 'react';
-import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { Loading } from './LoadingComponent';
-import { baseUrl } from '../shared/baseUrl';
+import React, { Component } from 'react';
+import { menu } from '../shared/apiService';
+import { Button } from 'reactstrap';
+import TableCountInput from './CustominputComponent';
+import  home from '../shared/images/Home.jpg';
+import  berryblast from '../shared/images/berry\ blast.jpg';
+import  Brownie from '../shared/images/Chocolate-Brownie_2.png';
+import  buger from '../shared/images/buger\ 2.jpg';
+import  chocshake from '../shared/images/choc\ shake.jpg';
+import  drinks from '../shared/images/fountain-drinks.jpg';
+import  badking from '../shared/images/badking.jpg';
 
- 
-    function RenderMenuItem ({dish, onClick}) {
+class Menu extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            branchname: this.props.selectedBranch,
+            itemCount:1,
+            menuItems: [],
+            loading: false,
+            error: null,
+            fetchMenuData: null
+        };
+        this.handleitemCountChange= this.handleitemCountChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.fetchMenu = this.fetchMenu.bind(this);
+    }
+
+    handleitemCountChange = (value) => {
+        this.setState({ itemCount: value });
+    };
+
+    handleClick = (value1,value2) =>{
+        this.props.onCart(value1,value2);
+    };
+
+   
+    fetchMenu = async () => {
+        try {
+            const data = await menu(this.state.branchname);
+            if (!this.unmounted) {
+                this.setState({ menuItems: data });
+            }
+        } catch (error) {
+            if (!this.unmounted) {
+                this.setState({ error: 'Error fetching menu items' });
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.fetchMenu();
+    }
+
+    componentWillUnmount() {
+        this.unmounted = true;
+    }
+
+    render() {
+        const { menuItems, loading, error } = this.state;
+        const images =[berryblast,Brownie,buger,chocshake,drinks,badking,home,Brownie,buger];
+
+        if (loading) {
+            return <div>Loading...</div>;
+        }
+
+        if (error) {
+            return <div>Error: {error}</div>;
+        }
+
         return (
-            <Card>
-                <Link to={`/menu/${dish.id}`}>
-                    <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
-                    <CardImgOverlay>
-                        <CardTitle>{dish.name}</CardTitle>
-                    </CardImgOverlay>
-                </Link>
-            </Card>
+            this.state.branchname ? (
+            <div className="wrap">
+            <div className="container">
+                    <div className="col-12 " style= {{ paddingTop: '50px'}}>
+                    <div className="res-header" style = {{margin: '10px 0 44px 7px' }}> Menu of {this.state.branchname} Branch</div>
+                    {this.state.menuItems.map((item, index) => (
+                            <div key={index} className="menu-test">
+                               <img className="image" src={images[index]} />
+                               <div className= "mob-cont">
+                                    <div className="itemname">{item.itemname}</div>
+                                    <div className="itemprice">{item.itemprice} $</div>
+                                    <Button className="menu-bttn" onClick={() => this.handleClick(item.itemprice,item.itemname)} >
+                                        Add to cart
+                                    </Button>
+                                </div>
+                            </div>
+                        ))} 
+                    </div>
+            </div>
+            </div>
+            ):(
+                <div className="wrap">
+                <div className="container">
+                    <span>Please Select a Branch to view the menu</span>
+                </div>
+                </div>
+            )
         );
     }
-
-    const Menu = (props) => {
-
-        const menu = props.dishes.dishes.map((dish) => {
-            return (
-                <div className="col-12 col-md-5 m-1"  key={dish.id}>
-                    <RenderMenuItem dish={dish} onClick={props.onClick} />
-                </div>
-            );
-        });
-        if (props.dishes.isLoading) {
-            return(
-                <div className="container">
-                    <div className="row">            
-                        <Loading />
-                    </div>
-                </div>
-            );
-        }
-        else if (props.dishes.errMess) {
-            return(
-                <div className="container">
-                    <div className="row"> 
-                        <div className="col-12">
-                            <h4>{props.dishes.errMess}</h4>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-        else
-            return (
-                <div className="container">
-                    <div className="row">
-                        <Breadcrumb>
-                            <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
-                            <BreadcrumbItem active>Menu</BreadcrumbItem>
-                        </Breadcrumb>
-                        <div className="col-12">
-                            <h3>Menu</h3>
-                            <hr />
-                        </div>                
-                    </div>
-                    <div className="row">
-                        {menu}
-                    </div>
-                </div>
-            );
-    }
+}
 
 export default Menu;

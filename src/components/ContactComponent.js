@@ -27,6 +27,7 @@ class Contact extends Component {
         const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
         return(
+            <div className="wrap">
             <div className="container">
                 <div className="row">
                     <Breadcrumb>
@@ -193,6 +194,7 @@ class Contact extends Component {
                         </Form>
                     </div>
                </div>
+            </div>
             </div>
         );
     }

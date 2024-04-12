@@ -58,6 +58,8 @@ function About(props) {
     });
 
     return(
+        <div></div>
+        /*
         <div className="container">
             <div className="row">
                 <Breadcrumb>
@@ -118,6 +120,7 @@ function About(props) {
                 </div>
             </div>
         </div>
+        */
     );
 }
 

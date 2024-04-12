@@ -1,28 +1,5 @@
-.about{
-    button{
-        border-radius:10px;
-    }
-    .card{
-        width:100%;
-        margin: 50px 13.6%;
-        display:flex;
-        flex-direction:row;
-        .image{
-            height:400px;
-            width:40%;
-            img{
-                object-fit: cover;
-                height:100%;
-            }
-        }
-        .body{
-            font-size: 20px;
-            overflow:hidden;
-            white-space: none;
-            
-        }
 
-    }
+.header{
     .additional-menu {
         position: absolute;
         top: 0;
