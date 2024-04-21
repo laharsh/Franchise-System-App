@@ -1,1 +1,1 @@
-export const baseUrl = 'http://localhost:3001/';
+export const baseUrl = 'https://nodeserver-mysql-t7s3.onrender.com/';
