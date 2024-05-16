@@ -1,5 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+![full stack thumbnail](https://github.com/laharsh/Full-Stack-Web-App/assets/152136808/16ba91ac-e7a9-4285-86ec-9ac45fe4fac3)
+
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -7,7 +10,7 @@ In the project directory, you can run:
 ### `yarn start`
 
 Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [https://fullstack-restaurantae.vercel.app/home](https://fullstack-restaurantae.vercel.app/home) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
